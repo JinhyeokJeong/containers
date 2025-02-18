@@ -1,0 +1,22 @@
+Bootstrap: docker
+From: ubuntu:22.04
+
+%post
+    # Install Python 3.11 and necessary packages
+    apt-get update && apt-get install -y \
+        python3.11 \
+        python3.11-venv \
+        python3.11-dev \
+        python3-pip \
+        && rm -rf /var/lib/apt/lists/*
+
+    # Ensure Python 3.11 is the default
+    ln -s /usr/bin/python3.11 /usr/bin/python
+
+    # Upgrade pip and install packages
+    python -m pip install --upgrade pip
+    pip install numpy scipy pandas matplotlib numba
+
+%environment
+    export PATH="/usr/bin:$PATH"
+    export PYTHONUNBUFFERED=1
