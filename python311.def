@@ -20,4 +20,4 @@ From: ubuntu:22.04
 %environment
     export PATH="/usr/bin:$PATH"
     export PYTHONUNBUFFERED=1
-    mkdir /nobackup /data /panfs
+    # mkdir /nobackup /data /panfs
