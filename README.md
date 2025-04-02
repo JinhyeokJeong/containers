@@ -6,6 +6,12 @@ This repository contains singularity (apptainer) images that I routinely use.
   - basic python environment with numpy, scipy, pandas, matplotlib, and numba.
   - mainly for running Monte Carlo simulations using numpy and scipy.
 
+Build a container based on the def file
+- singularity build <my_container.sif> <my_container.def>
+  ``` bash
+  singularity build python311.sif python311.def
+  ```
+
 
 Open shell inside of the container:
 
