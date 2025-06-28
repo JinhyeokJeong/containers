@@ -15,7 +15,7 @@ This repository contains singularity (apptainer) images that I routinely use.
   - Bayesflow, Keras3, PyTorch (2.x), JAX, with CUDA 11.x (python 3.10)
   - for using Bayesflow to do simulation-based Amortized Bayesian Inference with neural network models.
   - should use ```--nv``` argument to use GPU
-
+  - currently, 'torch' should be used as Keras backend. JAX version needs to be updated to use it for BayesFlow. 
 
 Build a container based on the def file
 - singularity build <my_container.sif> <my_container.def>
