@@ -1,0 +1,55 @@
+Bootstrap: docker
+From: python:3.12-slim-bookworm
+
+%labels
+    Description BayesFlow, PyMC, HSSM, and JAX CUDA 12 environment
+    Python 3.12
+
+%environment
+    export KERAS_BACKEND=jax
+    export PYTHONUNBUFFERED=1
+    export PIP_DISABLE_PIP_VERSION_CHECK=1
+    export XLA_PYTHON_CLIENT_PREALLOCATE=false
+
+%post
+    set -e
+
+    apt-get update
+    apt-get install -y --no-install-recommends \
+        build-essential \
+        git \
+        graphviz \
+        libopenblas-dev \
+        pkg-config
+
+    rm -rf /var/lib/apt/lists/*
+
+    python -m pip install --upgrade pip setuptools wheel
+
+    python -m pip install --no-cache-dir \
+        "hssm[cuda12]" \
+        "bayesflow>=2.0" \
+        "pymc>=6.2" \
+        "arviz>=1.2" \
+        numpy \
+        scipy \
+        pandas \
+        matplotlib \
+        seaborn \
+        scikit-learn \
+        numba \
+        jupyterlab \
+        ipykernel \
+        ipywidgets \
+        tqdm \
+        joblib \
+        sympy
+
+%test
+    python -c \
+        "import bayesflow, hssm, pymc, arviz, jax; \
+        print('JAX devices:', jax.devices()); \
+        print('Imports successful')"
+
+%runscript
+    exec python "$@"
