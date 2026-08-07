@@ -1,0 +1,99 @@
+Bootstrap: docker
+From: python:3.12-slim-bookworm
+
+%labels
+    Description PyTorch, timm, OpenCLIP, and DNN environment
+    Python 3.12
+    CUDA_Runtime 11.8
+
+%environment
+    export PYTHONUNBUFFERED=1
+    export PIP_DISABLE_PIP_VERSION_CHECK=1
+
+    # Prevent excessive CPU threading in NumPy / BLAS operations.
+    # Override these at runtime when more threads are appropriate.
+    # export OMP_NUM_THREADS=1
+    # export MKL_NUM_THREADS=1
+    # export OPENBLAS_NUM_THREADS=1
+
+    # Locations that remain writable inside a read-only SIF image.
+    export MPLCONFIGDIR=/tmp/matplotlib
+    export HF_HOME=/tmp/huggingface
+    export TORCH_HOME=/tmp/torch
+
+%post
+    set -e
+
+    export DEBIAN_FRONTEND=noninteractive
+
+    apt-get update
+    apt-get install -y --no-install-recommends \
+        build-essential \
+        ca-certificates \
+        git \
+        libgl1 \
+        libglib2.0-0 \
+        libopenblas-dev \
+        pkg-config
+
+    rm -rf /var/lib/apt/lists/*
+
+    python -m pip install --upgrade \
+        pip \
+        setuptools \
+        wheel
+
+    # Install the CUDA 11.8 PyTorch wheels explicitly.
+    python -m pip install --no-cache-dir \
+        torch \
+        torchvision \
+        --index-url https://download.pytorch.org/whl/cu118
+
+    # Vision models and general DNN/scientific tools.
+    python -m pip install --no-cache-dir \
+        timm \
+        open_clip_torch \
+        transformers \
+        datasets \
+        accelerate \
+        safetensors \
+        huggingface_hub \
+        einops \
+        torchmetrics \
+        tensorboard \
+        numpy \
+        scipy \
+        pandas \
+        scikit-learn \
+        numba \
+        pillow \
+        scikit-image \
+        opencv-python-headless \
+        matplotlib \
+        seaborn \
+        tqdm \
+        jupyterlab \
+        ipykernel \
+        ipywidgets
+
+    mkdir -p \
+        /tmp/matplotlib \
+        /tmp/huggingface \
+        /tmp/torch
+
+    chmod 1777 \
+        /tmp/matplotlib \
+        /tmp/huggingface \
+        /tmp/torch
+
+%test
+    python -c \
+        "import torch, torchvision, timm, open_clip; \
+        print('PyTorch:', torch.__version__); \
+        print('PyTorch CUDA:', torch.version.cuda); \
+        print('CUDA available:', torch.cuda.is_available()); \
+        print('Devices:', torch.cuda.device_count()); \
+        print('Imports successful')"
+
+%runscript
+    exec python "$@"
