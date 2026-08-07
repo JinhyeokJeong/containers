@@ -17,6 +17,11 @@ This repository contains singularity (apptainer) images that I routinely use.
   - should use ```--nv``` argument to use GPU
   - currently, 'torch' should be used as Keras backend. JAX version needs to be updated to use it for BayesFlow. 
 
+- ```cogbayes.def```:
+  - Bayesflow (jax backend), HSSM, and PyMC (python 3.12)
+  - for using Bayesflow (Amortized Bayesian Inference), HSSM (sequential sampling model), PyMC (Bayesian modeling).
+  - should use ```--nv``` argument to use GPU
+
 Build a container based on the def file
 - singularity build <my_container.sif> <my_container.def>
   ``` bash
