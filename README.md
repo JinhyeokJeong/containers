@@ -6,7 +6,7 @@ This repository contains singularity (apptainer) images that I routinely use.
   - basic python environment with numpy, scipy, pandas, matplotlib, and numba.
   - mainly for running Monte Carlo simulations using numpy and scipy.
 
-- ```torch.def```:
+- ~```torch.def```~: (use pytorch-openclip if possible)
   - PyTorch (2.x) environment with CUDA 11.x (python 3.10)
   - for using PyTorch to use neural network models.
   - should use ```--nv``` argument to use GPU
@@ -20,6 +20,11 @@ This repository contains singularity (apptainer) images that I routinely use.
 - ```cogbayes.def```:
   - Bayesflow (jax backend), HSSM, and PyMC (python 3.12)
   - for using Bayesflow (Amortized Bayesian Inference), HSSM (sequential sampling model), PyMC (Bayesian modeling).
+  - should use ```--nv``` argument to use GPU (GPU may not be supported if CUDA version is lower than 12.x)
+
+- ```pytorch-openclip.def```
+  - PyTorch (2.x) environment with CUDA > 11.x (python 3.12
+  - other DNN model packages (e.g., open_clip and time) are also included
   - should use ```--nv``` argument to use GPU
 
 Build a container based on the def file
