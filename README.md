@@ -22,6 +22,12 @@ This repository contains singularity (apptainer) images that I routinely use.
   - for using Bayesflow (Amortized Bayesian Inference), HSSM (sequential sampling model), PyMC (Bayesian modeling).
   - should use ```--nv``` argument to use GPU (GPU may not be supported if CUDA version is lower than 12.x)
 
+- ```cogbayes-cu11.def```:
+  - Bayesflow (PyTorch backend), and PyMC (python 3.12)
+  - This is also for Bayesflow and PyMC, but it was modified for older workstations with CUDA 11.xx.
+  - HSSM is not included. Instead of jax, PyTorch is used for Bayesflow. For PyMC, nutpie is installed as well.
+  - should use ```--nv``` argument to use GPU.
+
 - ```pytorch-openclip.def```
   - PyTorch (2.x) environment with CUDA > 11.x (python 3.12
   - other DNN model packages (e.g., open_clip and time) are also included
